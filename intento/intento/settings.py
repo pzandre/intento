@@ -16,6 +16,7 @@ from secret_key_generator import secret_key_generator
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tinymce',
+    'django_quill',
     'dashboard',
 ]
 
@@ -145,3 +146,19 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+QUILL_CONFIGS = {
+    'default': {
+        'theme': 'snow',
+        'modules': {
+            'syntax': True,
+            'toolbar': [
+                [{'font': []}, {'header': []}, {'align': []}, 'bold', 'italic', 'underline', 'strike', 'blockquote',
+                 {'script': 'sub'}, {'script': 'super'}, {'indent': '-1'}, {'indent': '+1'}, {'direction': 'rtl'},
+                 {'color': []}, {'background': []}, {'list': 'ordered'}, {'list': 'bullet'},
+                 'formula', 'code-block', 'image']
+            ],
+            'imageResize': True
+        }
+    }
+}
