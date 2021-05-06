@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+    django:
+        build: .
+        restart: on-failure
+        container_name: django
+        command: bash -rc "python intento/manage.py makemigrations &&
+                           python intento/manage.py migrate &&
+                           gunicorn --limit-request-line 8190 --workers=3
+                           --chdir /usr/src/app/src wsgi:application --bind 0.0.0.0:8000"
+        volumes:
+            - .:/usr/src/app
+        expose:
+            - "8000"
+        env_file:
+            - ./.env
+        depends_on:
+            - pgdb
+    pgdb:
+        image: postgres
+        restart: on-failure
+        container_name: pgdb
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+    nginx:
+        image: nginx
+        restart: unless-stopped
+        volumes:
+          - /etc/letsencrypt/archive/intento.com:/etc/nginx/certs
+          - ./intento/static:/etc/nginx/static
+        depends_on:
+          - web
+volumes:
+  postgres_data:

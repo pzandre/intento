@@ -1,0 +1,26 @@
+before_script:
+  ## (change apt-get to yum if you use an RPM-based image)
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  ## We're using tr to fix line endings which makes ed25519 keys work without extra base64 encoding.
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+deploy-staging:
+  type: deploy
+  environment:
+    name: staging
+    url: $SSH_IP_ADDRESS
+  script:
+    - ssh -q $USER@$SSH_IP_ADDRESS
+      "cd $REPO_PATH &&
+       docker stop $DOCKER_CONTAINERS &&
+       sudo rm -rf $LOCAL_FOLDER &&
+       git clone -q $REPO_ORIGIN $LOCAL_FOLDER &&
+       sed -i 's/DEBUG = True/DEBUG = False/' $LOCAL_FOLDER/src/core/settings.py &&
+       docker-compose $DOCKER_YML &&
+       docker exec django python src/manage.py collectstatic --noinput"
+  only:
+    - main
