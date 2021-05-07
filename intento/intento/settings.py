@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_quill',
     'dashboard',
+    'members',
 ]
 
 MIDDLEWARE = [
@@ -162,3 +163,6 @@ QUILL_CONFIGS = {
         }
     }
 }
+
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'home'
