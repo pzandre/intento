@@ -12,14 +12,15 @@
 </head>
 <body>
   <div id="question">
-      <div>
-        {% autoescape on %}
-
-        {{ question }}
-
-        {% endautoescape %}
-
-      </div>
+      <div>{{ question.get_question_type_display }}</div>
+        <div>{{ question.base_text.html|safe }}</div>
+        <div>{{ question.bibliographic_reference }}</div>
+        <div>{{ question.question_statement.html|safe }}</div>
+        <div>{{ question.answer_A.html|safe }}</div>
+        <div>{{ question.answer_B.html|safe }}</div>
+        <div>{{ question.answer_C.html|safe }}</div>
+        <div>{{ question.answer_D.html|safe }}</div>
+        <div>{{ question.answer_E.html|safe }}</div>
   </div>
   <div id="editor">
     <form action="" method="POST">{% csrf_token %}

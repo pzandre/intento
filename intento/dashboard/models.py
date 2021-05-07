@@ -1,5 +1,6 @@
 from django.db import models
 from django_quill.fields import QuillField
+from django.urls import reverse
 
 
 class Question(models.Model):
@@ -33,9 +34,9 @@ class Question(models.Model):
     answer_C = QuillField()
     answer_D = QuillField()
     answer_E = QuillField()
-    
-    # def get_question_details(self):
-    #     return self.__dict__()
+
+    def get_absolute_url(self, *args, **kwargs):
+        return reverse('new-answer', kwargs={'pk': self.pk})
 
 
 class Answer(models.Model):
@@ -89,11 +90,11 @@ class Answer(models.Model):
 
     correct_answer = models.CharField(max_length=1, choices=ANSWER_CHOICES)
 
-    a_justification = QuillField()
-    b_justification = QuillField()
-    c_justification = QuillField()
-    d_justification = QuillField()
-    e_justification = QuillField()
+    a_justification = QuillField(blank=True)
+    b_justification = QuillField(blank=True)
+    c_justification = QuillField(blank=True)
+    d_justification = QuillField(blank=True)
+    e_justification = QuillField(blank=True)
 
-    def get_question_details(self):
-        return self.question.__dict__()
+    def get_absolute_url(self, *args, **kwargs):
+        return reverse('question-detail', kwargs={'pk': self.pk})
