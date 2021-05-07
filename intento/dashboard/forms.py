@@ -1,9 +1,17 @@
 from django import forms
-from tinymce.widgets import TinyMCE
-from .models import Question, Answers
+from .models import Question, Answer
+
 
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = '__all__'
-        
+
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = '__all__'
+        widgets = {
+            'question': forms.HiddenInput()
+        }

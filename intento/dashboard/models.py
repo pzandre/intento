@@ -1,6 +1,8 @@
 from django.db import models
+from django_quill.fields import QuillField
+from django.urls import reverse
 
-# Create your models here.
+
 class Question(models.Model):
     
     INCOMPLETE_AFFIRMATION = 'IA'
@@ -24,15 +26,18 @@ class Question(models.Model):
 
     question_type = models.CharField(max_length=2, choices=QUESTION_TYPE_CHOICES)
     
-    base_text = models.TextField()
+    base_text = QuillField()
     bibliographic_reference = models.CharField(max_length=1000)
-    question_statement = models.TextField()
-    answer_A = models.TextField()
-    answer_B = models.TextField()
-    answer_C = models.TextField()
-    answer_D = models.TextField()
-    answer_E = models.TextField()
-    
+    question_statement = QuillField()
+    answer_A = QuillField()
+    answer_B = QuillField()
+    answer_C = QuillField()
+    answer_D = QuillField()
+    answer_E = QuillField()
+
+    def get_absolute_url(self, *args, **kwargs):
+        return reverse('new-answer', kwargs={'pk': self.pk})
+
 
 class Answer(models.Model):
     
@@ -85,8 +90,11 @@ class Answer(models.Model):
 
     correct_answer = models.CharField(max_length=1, choices=ANSWER_CHOICES)
 
-    a_justification = models.TextField()
-    b_justification = models.TextField()
-    c_justification = models.TextField()
-    d_justification = models.TextField()
-    e_justification = models.TextField()
+    a_justification = QuillField(blank=True)
+    b_justification = QuillField(blank=True)
+    c_justification = QuillField(blank=True)
+    d_justification = QuillField(blank=True)
+    e_justification = QuillField(blank=True)
+
+    def get_absolute_url(self, *args, **kwargs):
+        return reverse('question-detail', kwargs={'pk': self.pk})

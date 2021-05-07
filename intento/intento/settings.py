@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tinymce',
+    'django_quill',
     'dashboard',
 ]
 
@@ -147,3 +147,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
+QUILL_CONFIGS = {
+    'default': {
+        'theme': 'snow',
+        'modules': {
+            'syntax': True,
+            'toolbar': [
+                [{'font': []}, {'header': []}, {'align': []}, 'bold', 'italic', 'underline', 'strike', 'blockquote',
+                 {'script': 'sub'}, {'script': 'super'}, {'indent': '-1'}, {'indent': '+1'}, {'direction': 'rtl'},
+                 {'color': []}, {'background': []}, {'list': 'ordered'}, {'list': 'bullet'},
+                 'formula', 'code-block', 'image']
+            ],
+            'imageResize': True
+        }
+    }
+}
