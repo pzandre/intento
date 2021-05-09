@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+<title>{% block title %}Intento | Question Details{% endblock %}</title>
+{% block content %}
   <div>{{ question.get_question_type_display }}</div>
   <div>{{ question.base_text.html|safe }}</div>
   <div>{{ question.bibliographic_reference }}</div>
@@ -25,5 +21,4 @@
   <div>{{ answer.e_justification.html|safe }}</div>
  <a href="{% url 'question-update' question.id %}">Change Question</a>
  <a href="{% url 'answer-update' answer.id %}">Change Answer</a>
-</body>
-</html>
+{% endblock %}

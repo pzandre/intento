@@ -43,6 +43,7 @@ class QuestionDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['question'] = Question.objects.get(id=self.kwargs['pk'])
+
         return context
 
 
