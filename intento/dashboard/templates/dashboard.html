@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Dashboard</title>
-</head>
-<body>
-<button>Teste</button>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Intento | Dashboard {% endblock %}
+{% block content %}
+	<a href="{% url 'question-list' %}">All Questions</a>
+	<a href="{% url 'new-question' %}">Create new Question</a>
+	<a href="{% url 'edit-profile' %}">Manage your profile</a>
+{% endblock %}

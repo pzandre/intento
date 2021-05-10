@@ -38,6 +38,9 @@ class Question(models.Model):
     def get_absolute_url(self, *args, **kwargs):
         return reverse('new-answer', kwargs={'pk': self.pk})
 
+    def get_fields(self):
+        return [(field.name, field.value_to_string(self)) for field in Question._meta.fields]
+
 
 class Answer(models.Model):
     

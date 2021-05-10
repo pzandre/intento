@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+<title>{% block title %}Intento | Question Details{% endblock %}</title>
+{% block content %}
+  <div>{{ question.get_question_type_display }}</div>
+  <div>{{ question.base_text.html|safe }}</div>
+  <div>{{ question.bibliographic_reference }}</div>
+  <div>{{ question.question_statement.html|safe }}</div>
+  <div>{{ question.answer_A.html|safe }}</div>
+  <div>{{ question.answer_B.html|safe }}</div>
+  <div>{{ question.answer_C.html|safe }}</div>
+  <div>{{ question.answer_D.html|safe }}</div>
+  <div>{{ question.answer_E.html|safe }}</div>
+  <div>{{ answer.difficulty }}</div>
+  <div>{{ answer.bloom_taxonomy }}</div>
+  <div>{{ answer.question_information }}</div>
+  <div>{{ answer.correct_answer }}</div>
+  <div>{{ answer.a_justification.html|safe }}</div>
+  <div>{{ answer.b_justification.html|safe }}</div>
+  <div>{{ answer.c_justification.html|safe }}</div>
+  <div>{{ answer.d_justification.html|safe }}</div>
+  <div>{{ answer.e_justification.html|safe }}</div>
+ <a href="{% url 'question-update' question.id %}">Change Question</a>
+ <a href="{% url 'answer-update' answer.id %}">Change Answer</a>
+{% endblock %}

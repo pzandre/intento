@@ -1,0 +1,9 @@
+.modal-text-fields {
+    white-space: break-spaces;
+    display: contents;
+}
+
+.modal-text-fields + p {
+    white-space: break-spaces;
+    display: contents;
+}

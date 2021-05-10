@@ -1,26 +1,24 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Write the Answer</title>
+{% block extra_head %}
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
   {{ form.media }}
   <script src="{% static 'js/image-resize.min.js' %}"></script>
   <link rel="shortcut icon" href="#" />
-</head>
-<body>
+  <title>{% block title %}Intento | Write the Answer{% endblock %}</title>
+{% endblock %}
+{% block content %}
   <div id="question">
-      <div>{{ question.get_question_type_display }}</div>
-        <div>{{ question.base_text.html|safe }}</div>
-        <div>{{ question.bibliographic_reference }}</div>
-        <div>{{ question.question_statement.html|safe }}</div>
-        <div>{{ question.answer_A.html|safe }}</div>
-        <div>{{ question.answer_B.html|safe }}</div>
-        <div>{{ question.answer_C.html|safe }}</div>
-        <div>{{ question.answer_D.html|safe }}</div>
-        <div>{{ question.answer_E.html|safe }}</div>
+    <div>{{ question.get_question_type_display }}</div>
+    <div>{{ question.base_text.html|safe }}</div>
+    <div>{{ question.bibliographic_reference }}</div>
+    <div>{{ question.question_statement.html|safe }}</div>
+    <div>{{ question.answer_A.html|safe }}</div>
+    <div>{{ question.answer_B.html|safe }}</div>
+    <div>{{ question.answer_C.html|safe }}</div>
+    <div>{{ question.answer_D.html|safe }}</div>
+    <div>{{ question.answer_E.html|safe }}</div>
   </div>
   <div id="editor">
     <form action="" method="POST">{% csrf_token %}
@@ -29,5 +27,4 @@
     </form>
   </div>
   <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
-</body>
-</html>
+{% endblock %}

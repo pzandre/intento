@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-<h1>Hello, World!</h1>
-<button><a href="{% url 'new-question' %}">New Question</a></button>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Intento {% endblock %}
+{% block content %}
+	<h1>Hello, World!</h1>
+	<button><a href="{% url 'new-question' %}">New Question</a></button>
+{% endblock %}

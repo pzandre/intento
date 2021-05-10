@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
+  {{ form.media }}
+  <script src="{% static 'js/image-resize.min.js' %}"></script>
+  <title>{% block title %}Intento | New Question{% endblock %}</title>
+{% endblock %}
+{% block content %}
+  <div id="editor">
+    <form action="" method="POST">{% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-secondary">Update Answer</button>
+    </form>
+  </div>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+{% endblock %}

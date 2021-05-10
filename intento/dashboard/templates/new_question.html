@@ -1,22 +1,43 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>New Question</title>
+{% block extra_head %}
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
+  <link rel="stylesheet" href="{% static 'css/newQuestion.css' %}" />
   {{ form.media }}
   <script src="{% static 'js/image-resize.min.js' %}"></script>
-  <link rel="shortcut icon" href="#" />
-</head>
-<body>
+  <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+
+  <title>{% block title %}Intento | New Question{% endblock %}</title>
+{% endblock %}
+{% block content %}
   <div id="editor">
-    <form action="" method="POST">{% csrf_token %}
+    <form action="" name="question-form" id="question-form1" method="POST">{% csrf_token %}
       {{ form.as_p }}
-      <button class="btn btn-secondary">Create Question</button>
+      <!-- Button trigger modal -->
+      <button type="button" id="preview-question1"  name="preview-question" class="btn btn-primary previewModal" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+      </button>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="modal-question" class="modal-body">
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="close-modal" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-secondary" onclick="showModal()">Create Question</button>
     </form>
   </div>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
-</body>
-</html>
+<script src="{% static 'js/questionModalForm.js' %}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+{% endblock %}
