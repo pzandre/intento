@@ -3,6 +3,7 @@
 {% block extra_head %}
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
+  <link rel="stylesheet" href="{% static 'css/newQuestion.css' %}" />
   {{ form.media }}
   <script src="{% static 'js/image-resize.min.js' %}"></script>
   <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
@@ -14,10 +15,9 @@
     <form action="" name="question-form" id="question-form1" method="POST">{% csrf_token %}
       {{ form.as_p }}
       <!-- Button trigger modal -->
-      <button type="button" id="preview-question1"  name="preview-question" class="btn btn-primary teste" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <button type="button" id="preview-question1"  name="preview-question" class="btn btn-primary previewModal" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Launch demo modal
       </button>
-
       <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
