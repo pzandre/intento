@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extra_head %}
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
+  <link rel="stylesheet" href="{% static 'css/katex.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/monokai-sublime.min.css' %}" />
   <link rel="stylesheet" href="{% static 'css/newQuestion.css' %}" />
   {{ form.media }}
   <script src="{% static 'js/image-resize.min.js' %}"></script>
@@ -19,15 +19,25 @@
         Launch demo modal
       </button>
       <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div id="modal-question" class="modal-body">
-            </div>
+            <div style="width: 100%; display: table;">
+    					<div style="display: table-row">
+								<div id="modal-question" class="modal-body" style="width: 600px; display: table-cell;">Questão 1</div>
+								<div id="question2" style="width: 800px; display: table-cell;"><h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut rhoncus aliquam libero et iaculis. Nulla venenatis, tortor a ornare pharetra, neque augue hendrerit mauris, eget dictum erat dui ut felis. Cras ultricies purus eu pellentesque lacinia. Morbi diam neque, tristique in urna non, tincidunt convallis mi. Vivamus in ex ut risus lobortis fermentum. Curabitur pharetra magna nec tristique maximus. Praesent ac eros dui. Donec dignissim, nisl rutrum tempor lacinia, urna dolor suscipit metus, ut iaculis magna lorem sit amet lorem. Nunc euismod mattis sapien sit amet facilisis. Cras quis accumsan orci. Nullam ac rutrum nisi.
+
+Nunc vitae lacus ac mauris sodales posuere vel vel urna. Cras lacinia commodo rhoncus. Integer massa nunc, accumsan eget lectus sit amet, imperdiet suscipit ligula. Aenean sagittis in odio id consequat. Morbi ullamcorper euismod nisl, ut tristique orci pharetra at. Nam ipsum sapien, sagittis eu condimentum vitae, sodales vitae lorem. Morbi ac dolor nisl. Nunc ornare nunc nisl, eget ullamcorper ligula dictum at.
+
+
+									</h1></div>
+
+							</div>
+			  		</div>
             <div class="modal-footer">
               <button type="button" id="close-modal" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary">Save changes</button>
@@ -39,5 +49,5 @@
     </form>
   </div>
 <script src="{% static 'js/questionModalForm.js' %}"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+<script src="{% static 'js/katex.min.js' %}"></script>
 {% endblock %}
