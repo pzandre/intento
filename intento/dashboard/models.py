@@ -1,9 +1,13 @@
 from django.db import models
 from django_quill.fields import QuillField
 from django.urls import reverse
+from courses.models import QuestionOrder
 
 
 class Question(models.Model):
+    
+    question_order = models.ForeignKey(QuestionOrder, verbose_name="question order",
+                                       on_delete=models.CASCADE, null=True)
     
     INCOMPLETE_AFFIRMATION = 'IA'
     ASSERTION_REASON = 'AR'
@@ -41,10 +45,16 @@ class Question(models.Model):
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in Question._meta.fields]
 
+    def __str__(self):
+        return str(self.base_text.html)
+
+    def get_question_order(self):
+        return self.question_order.discipline.course
+
 
 class Answer(models.Model):
     
-    question = models.ForeignKey('Question', on_delete=models.CASCADE)
+    question = models.ForeignKey('Question', verbose_name='answer', on_delete=models.CASCADE)
 
     EASY = 'EZ'
     INTERMEDIATE = 'IM'
@@ -99,5 +109,15 @@ class Answer(models.Model):
     d_justification = QuillField(blank=True)
     e_justification = QuillField(blank=True)
 
+    revision_approval = models.BooleanField(default=False)
+
+    def tag_question_order(self):
+        return self.question.get_question_order()
+
+    tag = models.CharField(max_length=255, null=True)
+
     def get_absolute_url(self, *args, **kwargs):
         return reverse('question-detail', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return str(self.question.__str__()) + ' | ' 'Answer'

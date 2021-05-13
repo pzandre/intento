@@ -1,5 +1,5 @@
 """
-WSGI config for intento project.
+WSGI config for conf project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -15,6 +15,6 @@ from django.core.wsgi import get_wsgi_application
 project_folder = os.path.expanduser('/usr/src/app')  # adjust as appropriate
 load_dotenv(os.path.join(project_folder, '.env'))
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'intento.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'conf.settings')
 
 application = get_wsgi_application()
