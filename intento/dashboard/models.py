@@ -1,13 +1,15 @@
 from django.db import models
 from django_quill.fields import QuillField
-from django.urls import reverse
-from courses.models import QuestionOrder
+from django.urls import reverse, reverse_lazy
+from taggit.managers import TaggableManager
 
 
 class Question(models.Model):
     
-    question_order = models.ForeignKey(QuestionOrder, verbose_name="question order",
-                                       on_delete=models.CASCADE, null=True)
+    question_order = models.ForeignKey('courses.QuestionOrder', verbose_name="questionorder",
+                                       related_name="questionorder", on_delete=models.CASCADE, null=True)
+
+    id_by_order = models.IntegerField(null=True)
     
     INCOMPLETE_AFFIRMATION = 'IA'
     ASSERTION_REASON = 'AR'
@@ -40,7 +42,7 @@ class Question(models.Model):
     answer_E = QuillField()
 
     def get_absolute_url(self, *args, **kwargs):
-        return reverse('new-answer', kwargs={'pk': self.pk})
+        return reverse_lazy('new-answer', context={'question_order': self.question_order, 'order_by_id': self.order_by_id})
 
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in Question._meta.fields]
@@ -54,7 +56,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     
-    question = models.ForeignKey('Question', verbose_name='answer', on_delete=models.CASCADE)
+    question = models.ForeignKey('Question', verbose_name='question', on_delete=models.CASCADE)
 
     EASY = 'EZ'
     INTERMEDIATE = 'IM'
@@ -114,10 +116,10 @@ class Answer(models.Model):
     def tag_question_order(self):
         return self.question.get_question_order()
 
-    tag = models.CharField(max_length=255, null=True)
+    tag = TaggableManager()
 
-    def get_absolute_url(self, *args, **kwargs):
-        return reverse('question-detail', kwargs={'pk': self.pk})
+    # def get_absolute_url(self, *args, **kwargs):
+    #     return reverse('question-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return str(self.question.__str__()) + ' | ' 'Answer'

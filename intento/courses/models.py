@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.urls import reverse
 from members.models import Institute, Profile
-
+from dashboard.models import Answer, Question
 
 class Discipline(models.Model):
     course = models.CharField(max_length=255)
@@ -12,6 +12,8 @@ class Discipline(models.Model):
     def get_absolute_url(self, *args, **kwargs):
         return reverse('home')
 
+    def __str__(self):
+        return str(self.course)
 
 
 class QuestionOrder(models.Model):
@@ -23,4 +25,15 @@ class QuestionOrder(models.Model):
     due_date = models.DateField(auto_now=False)
 
     def get_absolute_url(self, *args, **kwargs):
-        return reverse('home')
+        return reverse('order-detail')
+
+    @property
+    def question_range(self):
+        return range(self.question_quantity)
+
+    @property
+    def question_details(self, *args, **kwargs):
+        order = Question.objects.get(question_order=self.pk)
+        return order
+
+
