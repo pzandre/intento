@@ -1,7 +1,9 @@
 django>=3.0,<4.0
+django-bootstrap-datepicker-plus
+django-quill-editor>=0.1.22
+django-taggit>=1.4.0
 gunicorn>=20.1.0
 Pillow>=8.2.0
 psycopg2-binary>=2.8
 python-dotenv>=0.16.0
 secret-key-generator>=0.0.7
-django-quill-editor>=0.1.22

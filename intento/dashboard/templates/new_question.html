@@ -45,7 +45,7 @@ Nunc vitae lacus ac mauris sodales posuere vel vel urna. Cras lacinia commodo rh
           </div>
         </div>
       </div>
-      <button class="btn btn-secondary" onclick="showModal()">Create Question</button>
+      <button class="btn btn-secondary" href="{% url 'new-answer' question_order id_by_order %}" method="POST" onclick="showModal()">Create Question</button>
     </form>
   </div>
 <script src="{% static 'js/questionModalForm.js' %}"></script>

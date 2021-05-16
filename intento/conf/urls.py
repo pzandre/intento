@@ -1,4 +1,4 @@
-"""intento URL Configuration
+"""conf URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url, include
+from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('dashboard.urls')),
+    path('', include('courses.urls')),
     path('members/', include('django.contrib.auth.urls')),
     path('members/', include('members.urls')),
 ]

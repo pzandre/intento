@@ -5,6 +5,7 @@ from django.contrib.auth.views import PasswordChangeView
 
 from .forms import CustomPasswordForm, EditProfileForm, SignupForm
 
+
 def password_success(request):
     return render(request, 'registration/password_success.html', {})
 
