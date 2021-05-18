@@ -5,6 +5,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .forms import AnswerForm, QuestionForm, UpdateAnswerForm, UpdateQuestionForm
 from .models import Answer, Question
 from courses.models import QuestionOrder
+from django_weasyprint import WeasyTemplateResponseMixin
+from django_weasyprint.views import CONTENT_TYPE_PNG, WeasyTemplateResponse
 
 
 def home(request):
@@ -123,3 +125,39 @@ class DeleteQuestionView(DeleteView):
     model = Question
     template_name = 'delete_question.html'
     success_url = reverse_lazy('question-list')
+
+
+class QuestionsPDFListView(ListView):
+    template_name = 'question_list_pdf_view.html'
+
+    def get_queryset(self, *args, **kwargs):
+        self.order_pk = get_object_or_404(QuestionOrder, pk=self.kwargs['question_order'])
+        return Question.objects.filter(question_order=self.order_pk)
+
+
+class CustomWeasyTemplateResponse(WeasyTemplateResponse):
+    # customized response class to change the default URL fetcher
+    def get_url_fetcher(self):
+        # disable host and certificate check
+        context = ssl.create_default_context()
+        context.check_hostname = False
+        context.verify_mode = ssl.CERT_NONE
+        return functools.partial(django_url_fetcher, ssl_context=context)
+
+
+class PatientAppointmentsPrintView(WeasyTemplateResponseMixin, QuestionsPDFListView):
+    # output of MyModelView rendered as PDF with hardcoded CSS
+    pdf_stylesheets = [
+        'static/css/bootstrap.min.css',
+        'static/css/katex.min.css',
+        'monokai-sublime.min.css',
+    ]
+    # show pdf in-line (default: True, show download dialog)
+    pdf_attachment = True
+    # custom response class to configure url-fetcher
+    response_class = CustomWeasyTemplateResponse
+
+
+class QuestionListDownloadView(WeasyTemplateResponseMixin, QuestionsPDFListView):
+    # suggested filename (is required for attachment/download!)
+    pdf_filename = 'simulado.pdf'

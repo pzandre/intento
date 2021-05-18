@@ -1,4 +1,3 @@
-import datetime
 from django import forms
 from bootstrap_datepicker_plus import DatePickerInput
 from .models import Discipline, QuestionOrder

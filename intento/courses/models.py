@@ -4,6 +4,7 @@ from django.urls import reverse
 from members.models import Institute, Profile
 from dashboard.models import Answer, Question
 
+
 class Discipline(models.Model):
     course = models.CharField(max_length=255)
     macro_content = models.CharField(max_length=255)
@@ -35,5 +36,3 @@ class QuestionOrder(models.Model):
     def question_details(self, *args, **kwargs):
         order = Question.objects.get(question_order=self.pk)
         return order
-
-

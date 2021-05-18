@@ -7,3 +7,4 @@ Pillow>=8.2.0
 psycopg2-binary>=2.8
 python-dotenv>=0.16.0
 secret-key-generator>=0.0.7
+django-weasyprint

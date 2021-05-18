@@ -1,6 +1,6 @@
 from django.db import models
 from django_quill.fields import QuillField
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from taggit.managers import TaggableManager
 
 
@@ -41,8 +41,10 @@ class Question(models.Model):
     answer_D = QuillField()
     answer_E = QuillField()
 
-    def get_absolute_url(self, *args, **kwargs):
-        return reverse_lazy('new-answer', context={'question_order': self.question_order, 'order_by_id': self.order_by_id})
+    def get_absolute_url(self):
+        return reverse_lazy('new-answer', context={
+                            'question_order': self.question_order, 'order_by_id': self.order_by_id
+                            })
 
     def get_fields(self):
         return [(field.name, field.value_to_string(self)) for field in Question._meta.fields]

@@ -22,11 +22,6 @@ class QuestionOrderDetailView(DetailView):
     model = QuestionOrder
     template_name = 'order_details.html'
 
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['order_pk'] = QuestionOrder.objects.get(id=self.kwargs.get('pk'))
-    #     return context
-
 
 class CreateDisciplineView(CreateView):
     model = Discipline
