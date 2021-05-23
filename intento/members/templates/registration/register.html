@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+<title>{% block title %}Intento | Create new user{% endblock %}</title>
+{% block content %}
     <div class="form-group">
       <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button>Register</button>
+        <button class="btn btn-secondary" type="submit">Create Profile</button>
       </form>
     </div>
-</body>
-</html>
+{% endblock %}

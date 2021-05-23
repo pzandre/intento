@@ -40,3 +40,4 @@ class UpdateAnswerForm(forms.ModelForm):
         widgets = {
             'question': forms.HiddenInput()
         }
+

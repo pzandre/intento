@@ -1,12 +1,22 @@
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User, Group
 from django import forms
+from .models import Institute, Profile
 
 
 class SignupForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
     first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_login = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    is_superuser = forms.CharField(max_length=100, widget=forms.CheckboxInput(attrs={'class': 'form-check'}))
+    is_staff = forms.CharField(max_length=100, widget=forms.CheckboxInput(attrs={'class': 'form-check'}))
+    is_active = forms.CharField(max_length=100, widget=forms.CheckboxInput(attrs={'class': 'form-check'}))
+    group = forms.ModelChoiceField(queryset=Group.objects.all(),
+                                   required=True, widget=forms.Select(attrs={'class': 'form-control'}))
+    institute = forms.ModelChoiceField(queryset=Institute.objects.all(),
+                                       required=True, widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -49,3 +59,15 @@ class CustomPasswordForm(PasswordChangeForm):
     class Meta:
         model = User
         fields = ('old_password', 'new_password1', 'new_password2')
+
+
+class CreateInstituteForm(forms.ModelForm):
+    class Meta:
+        model = Institute
+        fields = '__all__'
+
+
+class CreateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = '__all__'
