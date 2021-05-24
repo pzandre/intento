@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Intento | Logout{% endblock %}
+{% block content %}
+<h3>Succesful logout!</h3>
+  <hr>
+<a href="{% url 'home' %}" class="btn btn-secondary">Retornar à home</a><br>
+  <hr>
+<a href="{% url 'login' %}" class="btn btn-primary">Fazer login novamente</a>
+{% endblock %}
