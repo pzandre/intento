@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-{% load static %}
-<title>{% block title %}Intento | Questions{% endblock %}</title>
-{% block content %}
-	{% for question in object_list %}
-		<div>{{ question }}</div>
-	{% endfor %}
-{% endblock %}
