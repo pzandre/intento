@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Order Details{% endblock %}
+{% block content %}
+  <h3>Encomenda {{ object.pk }}</h3><br>
+  <h4>{{ object.institute }}</h4>
+  Disciplina <strong>{{ object.discipline }}</strong><br>
+  Macro-conteúdo <strong>{{ object.macro_content }}</strong><br>
+  Micro-conteúdo <strong>{{ object.micro_content }}</strong><br>
+  Feita em {{ object.order_date }} - <strong>Entrega até {{ object.due_date }}</strong><br><br>
+  Responsável {{ object.teacher }}<br>
+  <hr>
+  <a class="btn btn-info" href="{% url 'pdf-download' object.pk %}" class="button">Download da lista de questões em PDF</a>
+  <hr>
+  {% for id_by_order in object.question_range  %}
+    <h4>Question {{ id_by_order|add:1 }}</h4>
+    {% if object.question_details.id_by_order == id_by_order|add:"1" %}
+      <div>
+        <a class="btn btn-success" href="{% url 'question-detail' questionorder.id object.question_details.id_by_order %}" method="POST" class="button">See Question {{ id_by_order|add:"1" }}</a>
+      </div>
+    {% else %}
+      <div>
+        <a class="btn btn-danger" href="{% url 'create-question' questionorder.id id_by_order|add:"1" %}" method="POST" class="button">Create Question {{ id_by_order|add:"1" }}</a>
+      </div>
+    {% endif %}
+    <hr>
+  {% endfor %}
+{% endblock %}

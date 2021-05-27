@@ -29,8 +29,8 @@ services:
         image: nginx
         restart: unless-stopped
         volumes:
-          - /etc/letsencrypt/archive/conf.com:/etc/nginx/certs
-          - ./conf/static:/etc/nginx/static
+          - /etc/letsencrypt/archive/intento.com:/etc/nginx/certs
+          - ./intento/static:/etc/nginx/static
         depends_on:
           - web
 volumes:

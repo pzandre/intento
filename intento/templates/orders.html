@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Intento | Order list{% endblock %}
+{% block content %}
+  <div class="orders">
+    {% for order in object_list %}
+      <hr>
+      <h3>Encomenda {{ order.pk }}</h3><br>
+      <h4>{{ order.institute }}</h4>
+      Disciplina <strong>{{ order.discipline }}</strong><br>
+      Macro-conteúdo <strong>{{ order.macro_content }}</strong><br>
+      Micro-conteúdo <strong>{{ order.micro_content }}</strong><br>
+      Feita em {{ order.order_date }} - <strong>Entrega até {{ order.due_date }}</strong><br><br>
+      Responsável {{ order.teacher }}<br>
+      <h5>{{ order.question_quantity }} questão(ões) encomendada(s)</h5>
+      <a class="btn btn-primary" href="{% url 'order-detail' order.pk %}" role="button">Ver detalhes da encomenda</a>
+
+      <hr>
+    {% endfor %}
+  </div>
+{% endblock %}
