@@ -14,13 +14,6 @@ deploy-staging:
     name: staging
     url: $SSH_IP_ADDRESS
   script:
-    - ssh -q $USER@$SSH_IP_ADDRESS
-      "cd $REPO_PATH &&
-       docker stop $DOCKER_CONTAINERS &&
-       sudo rm -rf $LOCAL_FOLDER &&
-       git clone -q $REPO_ORIGIN $LOCAL_FOLDER &&
-       sed -i 's/DEBUG = True/DEBUG = False/' $LOCAL_FOLDER/src/core/settings.py &&
-       docker-compose $DOCKER_YML &&
-       docker exec django python src/manage.py collectstatic --noinput"
+    - ssh -q $USER@$SSH_IP_ADDRESS "cd $REPO_PATH && git clone -q $REPO_ORIGIN ."
   only:
     - main

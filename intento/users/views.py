@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView
@@ -14,19 +15,19 @@ def password_success(request):
     return render(request, 'registration/password_success.html', {})
 
 
-class PasswordsChangeView(PasswordChangeView):
+class PasswordsChangeView(LoginRequiredMixin, PasswordChangeView):
     form_class = CustomPasswordForm
     template_name = 'registration/change_password.html'
     success_url = reverse_lazy('password_success')
 
 
-class UserCreation(CreateView):
+class UserCreation(LoginRequiredMixin, CreateView):
     form_class = CustomUserCreationForm
     template_name = 'registration/register.html'
     success_url = reverse_lazy('home')
 
 
-class UserEdit(UpdateView):
+class UserEdit(LoginRequiredMixin, UpdateView):
     form_class = EditUserForm
     template_name = 'registration/edit_profile.html'
     success_url = reverse_lazy('dashboard')

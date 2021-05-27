@@ -2,7 +2,6 @@
 {% load static %}
 {% block title %}New Order{% endblock %}
 {% block extra_head %}
-  <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
   {{ form.media }}
 {% endblock %}
 {% block content %}
@@ -13,22 +12,5 @@
       <button type="submit" class="btn btn-primary">Create Order</button>
     </form>
   </div>
-  <script src="//code.jquery.com/jquery-3.6.0.js"></script>
-  <script>
-    $("#institute").change(function () {
-        const url = $("#discipline").attr("discipline-queries-url");  // get the url of the `load_cities` view
-        const instituteId = $(this).val();  // get the selected institute ID from the HTML input
-
-        $.ajax({                       // initialize an AJAX request
-            url: url,                    // set the url of the request (= ajax/load-discipline-details/ )
-            data: {
-                'institute_id': instituteId       // add the institute id to the GET parameters
-            },
-            success: function (data) {   // `data` is the return of the `load_cities` view function
-                $("#discipline").html(data);  // replace the contents of the city input with the data that came from the server
-            }
-        });
-
-    });
-  </script>
+  <script src="{% static 'js/orderDropdownSelection.js' %}"></script>
 {% endblock %}
