@@ -14,6 +14,6 @@ deploy-staging:
     name: staging
     url: $SSH_IP_ADDRESS
   script:
-    - ssh -q $USER@$SSH_IP_ADDRESS "cd $REPO_PATH && git clone -q $REPO_ORIGIN ."
+    - ssh -q $USER@$SSH_IP_ADDRESS "cd $REPO_PATH && git clone -q $GITLAB_ACCESS_TOKEN$REPO_ORIGIN ."
   only:
     - master
