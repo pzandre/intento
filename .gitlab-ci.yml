@@ -16,4 +16,4 @@ deploy-staging:
   script:
     - ssh -q $USER@$SSH_IP_ADDRESS "cd $REPO_PATH && git clone -q $REPO_ORIGIN ."
   only:
-    - main
+    - master
