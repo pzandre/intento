@@ -20,6 +20,6 @@
   <div>{{ answer.c_justification.html|safe }}</div>
   <div>{{ answer.d_justification.html|safe }}</div>
   <div>{{ answer.e_justification.html|safe }}</div>
-  <a href="{% url 'update-question' order question.pk %}" class="btn btn-secondary">Change Question</a>
-  <a href="{% url 'update-answer' order question.pk %}" class="btn btn-secondary">Change Answer</a>
+  <a href="{% url 'update-question' order id_by_order %}" class="btn btn-secondary">Change Question</a>
+  <a href="{% url 'update-answer' order id_by_order %}" class="btn btn-secondary">Change Answer</a>
 {% endblock %}

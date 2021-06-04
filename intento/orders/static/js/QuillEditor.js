@@ -8,7 +8,6 @@ toolbar: [
 [{ 'color': [] }, { 'background': [] }],
 [{ 'align': [] }],
 ['image'],
-
-   ]
+]
 }
 });
