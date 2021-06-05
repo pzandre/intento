@@ -29,6 +29,9 @@ class QuestionOrder(models.Model):
         order = Question.objects.get(question_order=self.pk)
         return order
 
+    def __str__(self):
+        return f'Order {self.pk} - {self.institute} | {self.discipline} | {self.macro_content} | {self.micro_content} | Professor {self.teacher}'
+
 
 class Question(models.Model):
     question_order = models.ForeignKey(QuestionOrder, verbose_name="questionorder",
@@ -57,8 +60,12 @@ class Question(models.Model):
 
     question_type = models.CharField(max_length=2, choices=QUESTION_TYPE_CHOICES)
 
-    base_text = QuillField()
-    bibliographic_reference = models.CharField(max_length=1000)
+    base_text_1 = QuillField()
+    bibliographic_reference_1 = models.CharField(max_length=1000)
+    base_text_2 = QuillField(blank=True, null=True)
+    bibliographic_reference_2 = models.CharField(max_length=1000, blank=True, null=True)
+    base_text_3 = QuillField(blank=True, null=True)
+    bibliographic_reference_3 = models.CharField(max_length=1000, blank=True, null=True)
     question_statement = QuillField()
     answer_A = QuillField()
     answer_B = QuillField()
@@ -75,7 +82,7 @@ class Question(models.Model):
         return [(field.name, field.value_to_string(self)) for field in Question._meta.fields]
 
     def __str__(self):
-        return str(self.base_text.html)
+        return f'Order {self.question_order.id} - Question {self.id_by_order}'
 
     def get_question_order(self):
         return self.question_order.discipline.course
@@ -143,9 +150,6 @@ class Answer(models.Model):
         return self.question.get_question_order()
 
     tag = TaggableManager()
-
-    # def get_absolute_url(self, *args, **kwargs):
-    #     return reverse('question-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return str(self.question.__str__()) + ' | ' 'Answer'

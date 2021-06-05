@@ -89,7 +89,7 @@ class CreateQuestion(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         view_name = 'create-answer'
-        return reverse(view_name, kwargs={'order': self.object.order.id,
+        return reverse(view_name, kwargs={'order': self.object.question_order.id,
                                           'id_by_order': self.object.id_by_order})
 
 
@@ -98,12 +98,13 @@ class CreateAnswer(LoginRequiredMixin, CreateView):
     template_name = 'new_answer.html'
     form_class = AnswerForm
 
-    def get_initial(self):
-        order_tag = QuestionOrder.objects.get(pk=self.kwargs['order'])
+    def get_initial(self, *args, **kwargs):
         initial = super().get_initial()
-        initial['question'] = Question.objects.filter(
-            question_order=order_tag).get(id_by_order=self.kwargs['id_by_order'])
-        initial['tag'] = order_tag.discipline.name
+        order_details = QuestionOrder.objects.get(pk=self.kwargs['order'])
+        question_order = Q(question_order__id=order_details.pk)
+        question_id = Q(id_by_order__contains=self.kwargs['id_by_order'])
+        initial['question'] = Question.objects.get(question_order & question_id)
+        initial['tag'] = order_details.discipline.name
         return initial
 
     def get_success_url(self):
@@ -124,8 +125,11 @@ class QuestionDetail(LoginRequiredMixin, DetailView):
         context['id_by_order'] = self.kwargs['id_by_order']
         return context
 
-    def get_object(self):
-        return get_object_or_404(Answer, pk=self.kwargs['order'])
+    def get_object(self, *args, **kwargs):
+        question_order = Q(question_order__id=self.kwargs['order'])
+        question_id = Q(id_by_order__contains=self.kwargs['id_by_order'])
+        q = Question.objects.get(question_order & question_id)
+        return get_object_or_404(Answer, pk=q.id)
 
 
 class UpdateQuestion(LoginRequiredMixin, UpdateView):
@@ -133,10 +137,16 @@ class UpdateQuestion(LoginRequiredMixin, UpdateView):
     form_class = QuestionForm
     template_name = 'update_question.html'
 
-    def get_success_url(self):
+    def get_object(self, *args, **kwargs):
+        question_order = Q(question_order__id=self.kwargs['order'])
+        id_by_order = Q(id_by_order=self.kwargs['pk'])
+        q = Question.objects.get(question_order & id_by_order)
+        return get_object_or_404(Question, pk=q.id)
+
+    def get_success_url(self, *args, **kwargs):
         view_name = 'question-detail'
-        return reverse(view_name, kwargs={'order': self.object.question_order.id,
-                                          'id_by_order': self.object.id_by_order})
+        return reverse(view_name, kwargs={'order': self.kwargs['order'],
+                                          'id_by_order': self.kwargs['pk']})
 
 
 class UpdateAnswer(LoginRequiredMixin, UpdateView):
@@ -144,11 +154,25 @@ class UpdateAnswer(LoginRequiredMixin, UpdateView):
     form_class = AnswerForm
     template_name = 'update_answer.html'
 
-    def get_success_url(self):
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['question'] = Question.objects.filter(
+            question_order=self.kwargs['order']).get(id_by_order=self.kwargs['id_by_order'])
+        context['order'] = self.kwargs['order']
+        context['id_by_order'] = self.kwargs['id_by_order']
+        return context
+
+    def get_object(self, *args, **kwargs):
+        question_order = Q(question_order__id=self.kwargs['order'])
+        question_id = Q(id_by_order=self.kwargs['id_by_order'])
+        q = Question.objects.get(question_order & question_id)
+        return get_object_or_404(Answer, pk=q.id)
+
+    def get_success_url(self, *args, **kwargs):
         view_name = 'question-detail'
         return reverse(view_name, kwargs={
-            'order': self.object.question.question_order.id,
-            'id_by_order': self.object.pk})
+            'order': self.kwargs['order'],
+            'id_by_order': self.kwargs['id_by_order']})
 
 
 class QuestionList(LoginRequiredMixin, ListView):

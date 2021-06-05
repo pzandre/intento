@@ -10,6 +10,7 @@
   <script src="{% static 'js/image-resize.min.js' %}"></script>
   <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 
+
 {% endblock %}
 {% block content %}
   <div id="editor">
@@ -20,35 +21,33 @@
         Launch demo modal
       </button>
       <!-- Modal -->
-			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div style="width: 100%; display: table;">
-    					<div style="display: table-row">
-								<div id="modal-question" class="modal-body" style="width: 600px; display: table-cell;">Questão 1</div>
-								<div id="question2" style="width: 800px; display: table-cell;"><h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut rhoncus aliquam libero et iaculis. Nulla venenatis, tortor a ornare pharetra, neque augue hendrerit mauris, eget dictum erat dui ut felis. Cras ultricies purus eu pellentesque lacinia. Morbi diam neque, tristique in urna non, tincidunt convallis mi. Vivamus in ex ut risus lobortis fermentum. Curabitur pharetra magna nec tristique maximus. Praesent ac eros dui. Donec dignissim, nisl rutrum tempor lacinia, urna dolor suscipit metus, ut iaculis magna lorem sit amet lorem. Nunc euismod mattis sapien sit amet facilisis. Cras quis accumsan orci. Nullam ac rutrum nisi.
-
-Nunc vitae lacus ac mauris sodales posuere vel vel urna. Cras lacinia commodo rhoncus. Integer massa nunc, accumsan eget lectus sit amet, imperdiet suscipit ligula. Aenean sagittis in odio id consequat. Morbi ullamcorper euismod nisl, ut tristique orci pharetra at. Nam ipsum sapien, sagittis eu condimentum vitae, sodales vitae lorem. Morbi ac dolor nisl. Nunc ornare nunc nisl, eget ullamcorper ligula dictum at.
-
-
-									</h1></div>
-
-							</div>
-			  		</div>
+            <div>
+              <div>
+                <div id="modal-question" class="modal-body">Questão 1</div>
+                <div id="question2">
+                  <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut rhoncus aliquam libero et iaculis. Nulla venenatis, tortor a ornare pharetra, neque augue hendrerit mauris, eget dictum erat dui ut felis. Cras ultricies purus eu pellentesque lacinia. Morbi diam neque, tristique in urna non, tincidunt convallis mi. Vivamus in ex ut risus lobortis fermentum. Curabitur pharetra magna nec tristique maximus. Praesent ac eros dui. Donec dignissim, nisl rutrum tempor lacinia, urna dolor suscipit metus, ut iaculis magna lorem sit amet lorem. Nunc euismod mattis sapien sit amet facilisis. Cras quis accumsan orci. Nullam ac rutrum nisi. Nunc vitae lacus ac mauris sodales posuere vel vel urna. Cras lacinia commodo rhoncus. Integer massa nunc, accumsan eget lectus sit amet, imperdiet suscipit ligula. Aenean sagittis in odio id consequat. Morbi ullamcorper euismod nisl, ut tristique orci pharetra at. Nam ipsum sapien, sagittis eu condimentum vitae, sodales vitae lorem. Morbi ac dolor nisl. Nunc ornare nunc nisl, eget ullamcorper ligula dictum at.</h4>
+                </div>
+              </div>
+            </div>
             <div class="modal-footer">
               <button type="button" id="close-modal" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+{#              <a type="submit" class="btn btn-primary" href="{% url 'create-answer' order id_by_order %}" method="POST">Create Question</a>#}
             </div>
           </div>
         </div>
       </div>
-      <button class="btn btn-secondary" href="{% url 'create-answer' order id_by_order %}" method="POST" onclick="showModal()">Create Question</button>
+    <button class="btn btn-secondary" href="{% url 'create-answer' order id_by_order %}" method="POST">Create Question</button>
     </form>
   </div>
-<script src="{% static 'js/questionModalForm.js' %}"></script>
-<script src="{% static 'js/katex.min.js' %}"></script>
+  <script src="{% static 'js/questionModalForm.js' %}"></script>
+  <script src="{% static 'js/katex.min.js' %}"></script>
+  <script src="{% static 'js/dynamicQuillToolBar.js' %}"></script>
+  <script src="{% static 'js/addBaseTexts.js' %}"></script>
 {% endblock %}
