@@ -17,11 +17,13 @@ for (let i = 5; i < 13; i++) {
   }
 }
 const br1 = document.createElement("br")
+const br2 = document.createElement("br")
 const btn1 = document.createElement("button")
 btn1.innerHTML = "Adicionar outro texto-base";
 btn1.classList.add("btn")
 btn1.classList.add("btn-secondary")
 quillLabels[4].appendChild(br1);
+quillLabels[4].appendChild(br2);
 quillLabels[4].appendChild(btn1);
 btn1.addEventListener("click", function (evt) {
   evt.preventDefault();
@@ -31,12 +33,14 @@ btn1.addEventListener("click", function (evt) {
   }
   divArray[0].style.display = ""
 });
-const br2 = document.createElement("br")
+const br3 = document.createElement("br")
+const br4 = document.createElement("br")
 const btn2 = document.createElement("button")
 btn2.innerHTML = "Adicionar outro texto-base";
 btn2.classList.add("btn")
 btn2.classList.add("btn-secondary")
-quillLabels[8].appendChild(br2);
+quillLabels[8].appendChild(br3);
+quillLabels[8].appendChild(br4);
 quillLabels[8].appendChild(btn2);
 btn2.addEventListener("click", function (evt) {
   evt.preventDefault();

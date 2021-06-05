@@ -98,12 +98,13 @@ class CreateAnswer(LoginRequiredMixin, CreateView):
     template_name = 'new_answer.html'
     form_class = AnswerForm
 
-    def get_initial(self):
-        order_tag = QuestionOrder.objects.get(pk=self.kwargs['order'])
+    def get_initial(self, *args, **kwargs):
         initial = super().get_initial()
-        initial['question'] = Question.objects.filter(
-            question_order=order_tag).get(id_by_order=self.kwargs['id_by_order'])
-        initial['tag'] = order_tag.discipline.name
+        order_details = QuestionOrder.objects.get(pk=self.kwargs['order'])
+        question_order = Q(question_order__id=order_details.pk)
+        question_id = Q(id_by_order__contains=self.kwargs['id_by_order'])
+        initial['question'] = Question.objects.get(question_order & question_id)
+        initial['tag'] = order_details.discipline.name
         return initial
 
     def get_success_url(self):

@@ -62,10 +62,10 @@ class Question(models.Model):
 
     base_text_1 = QuillField()
     bibliographic_reference_1 = models.CharField(max_length=1000)
-    base_text_2 = QuillField(null=True)
-    bibliographic_reference_2 = models.CharField(max_length=1000, null=True)
-    base_text_3 = QuillField(null=True)
-    bibliographic_reference_3 = models.CharField(max_length=1000, null=True)
+    base_text_2 = QuillField(blank=True, null=True)
+    bibliographic_reference_2 = models.CharField(max_length=1000, blank=True, null=True)
+    base_text_3 = QuillField(blank=True, null=True)
+    bibliographic_reference_3 = models.CharField(max_length=1000, blank=True, null=True)
     question_statement = QuillField()
     answer_A = QuillField()
     answer_B = QuillField()
@@ -150,9 +150,6 @@ class Answer(models.Model):
         return self.question.get_question_order()
 
     tag = TaggableManager()
-
-    # def get_absolute_url(self, *args, **kwargs):
-    #     return reverse('question-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return str(self.question.__str__()) + ' | ' 'Answer'
