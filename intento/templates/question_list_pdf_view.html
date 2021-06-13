@@ -1,4 +1,54 @@
 {% extends 'base.html' %}
-{% block title %}{% endblock %}
+{% block title %}Intento | Encomenda {{ order.pk }} | PDF{% endblock %}
 {% block content %}
+  <div>
+  <h4>{{ order.institute }}</h4>
+  <h5>{{ order.discipline }}</h5>
+  <h6>{{ order.macro_content }}</h6>
+  <h6>{{ order.micro_content }}</h6>
+  <h6>{{ order.teacher }}</h6>
+  </div>
+  {% for object in object_list %}
+    <div>
+    <h3>Questão {{ object.id_by_order }}</h3>
+      <div><p>Texto Base 1</p>
+        <div>{{ object.base_text_1.html|safe }}</div>
+        <p>Referência bibliográfica: <em>{{ object.bibliographic_reference_1 }}</em></p>
+      </div>
+      {% if object.base_text_2 != '{"delta":"","html":""}' %}
+        <div><p>Texto Base 2</p>
+          <div>{{ object.base_text_2.html|safe }}</div>
+          {% if object.bibliographic_reference_2 != None %}
+            <p> Referência bibliográfica: <em>{{ object.bibliographic_reference_2 }}</em></p>
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if object.base_text_3 != '{"delta":"","html":""}' %}
+        <div><p>Texto Base 2</p>
+          <div>{{ object.base_text_3.html|safe }}</div>
+            {% if object.bibliographic_reference_3 != None %}
+              <p>Referência bibliográfica: <em>{{ object.bibliographic_reference_3 }}</em></p>
+            {% endif %}
+        </div>
+      {% endif %}
+      <div>
+        <p>Enunciado</p>
+        <div>{{ object.question_statement.html|safe }}</div>
+      </div>
+      <div>
+        <p>Alternativas</p>
+        <p>A - {{ object.answer_A.html|safe }}</p>
+        {# B   &#9399#}
+        <p>B - {{ object.answer_B.html|safe }}</p>
+        {# C   &#9400#}
+        <p>C - {{ object.answer_C.html|safe }}</p>
+        {# D   &#9401#}
+        <p>D - {{ object.answer_D.html|safe }}</p>
+        {#  E  &#9402#}
+        <p>E - {{ object.answer_E.html|safe }}</p>
+        {#  A  &#9398#}
+      </div>
+    <hr>
+    </div>
+  {% endfor %}
 {% endblock %}
