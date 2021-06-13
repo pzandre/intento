@@ -18,11 +18,11 @@
       {{ form.as_p }}
       <!-- Button trigger modal -->
       <button type="button" id="preview-question1"  name="preview-question" class="btn btn-primary previewModal" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Launch demo modal
+        Preview da questão
       </button>
       <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -37,17 +37,18 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" id="close-modal" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Close</button>
-{#              <a type="submit" class="btn btn-primary" href="{% url 'create-answer' order id_by_order %}" method="POST">Create Question</a>#}
+              <button type="button" id="close-modal" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" id="close-modal-answer" class="btn btn-primary close-modal showAnswer" data-bs-dismiss="modal">Salvar</button>
             </div>
           </div>
         </div>
       </div>
-    <button class="btn btn-secondary" href="{% url 'create-answer' order id_by_order %}" method="POST">Create Question</button>
+    <button class="btn btn-secondary" id="create-question" href="{% url 'question-detail' order id_by_order %}" method="POST">Create Question</button>
     </form>
   </div>
   <script src="{% static 'js/questionModalForm.js' %}"></script>
   <script src="{% static 'js/katex.min.js' %}"></script>
   <script src="{% static 'js/dynamicQuillToolBar.js' %}"></script>
   <script src="{% static 'js/addBaseTexts.js' %}"></script>
+  <script src="{% static 'js/showAnswer.js' %}"></script>
 {% endblock %}

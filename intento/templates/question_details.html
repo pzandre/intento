@@ -6,20 +6,19 @@
   <div>{{ question.base_text.html|safe }}</div>
   <div>{{ question.bibliographic_reference }}</div>
   <div>{{ question.question_statement.html|safe }}</div>
-  <div>{{ question.answer_A.html|safe }}</div>
-  <div>{{ question.answer_B.html|safe }}</div>
-  <div>{{ question.answer_C.html|safe }}</div>
-  <div>{{ question.answer_D.html|safe }}</div>
-  <div>{{ question.answer_E.html|safe }}</div>
-  <div>{{ answer.difficulty }}</div>
-  <div>{{ answer.bloom_taxonomy }}</div>
-  <div>{{ answer.question_information }}</div>
-  <div>{{ answer.correct_answer }}</div>
-  <div>{{ answer.a_justification.html|safe }}</div>
-  <div>{{ answer.b_justification.html|safe }}</div>
-  <div>{{ answer.c_justification.html|safe }}</div>
-  <div>{{ answer.d_justification.html|safe }}</div>
-  <div>{{ answer.e_justification.html|safe }}</div>
+  <div>{{ question.question_A.html|safe }}</div>
+  <div>{{ question.question_B.html|safe }}</div>
+  <div>{{ question.question_C.html|safe }}</div>
+  <div>{{ question.question_D.html|safe }}</div>
+  <div>{{ question.question_E.html|safe }}</div>
+  <div>{{ question.difficulty }}</div>
+  <div>{{ question.bloom_taxonomy }}</div>
+  <div>{{ question.question_information }}</div>
+  <div>{{ question.correct_question }}</div>
+  <div>{{ question.a_justification.html|safe }}</div>
+  <div>{{ question.b_justification.html|safe }}</div>
+  <div>{{ question.c_justification.html|safe }}</div>
+  <div>{{ question.d_justification.html|safe }}</div>
+  <div>{{ question.e_justification.html|safe }}</div>
   <a href="{% url 'update-question' order id_by_order %}" class="btn btn-secondary">Change Question</a>
-  <a href="{% url 'update-answer' order id_by_order %}" class="btn btn-secondary">Change Answer</a>
 {% endblock %}

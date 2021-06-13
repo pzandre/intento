@@ -17,7 +17,8 @@ class QuestionOrder(models.Model):
     order_date = models.DateField(auto_now_add=True)
     due_date = models.DateField(auto_now=False)
 
-    def get_absolute_url(self, *args, **kwargs):
+    @staticmethod
+    def get_absolute_url(self, **kwargs):
         return reverse('order-detail')
 
     @property
@@ -26,11 +27,12 @@ class QuestionOrder(models.Model):
 
     @property
     def question_details(self, *args, **kwargs):
-        order = Question.objects.get(question_order=self.pk)
+        order = dir(Question.objects.filter(question_order=self.pk))
         return order
 
     def __str__(self):
-        return f'Order {self.pk} - {self.institute} | {self.discipline} | {self.macro_content} | {self.micro_content} | Professor {self.teacher}'
+        order_info = f'{self.institute} | {self.discipline} | {self.macro_content} | {self.micro_content}'
+        return f'Order {self.pk} - {order_info} | Professor {self.teacher}'
 
 
 class Question(models.Model):
@@ -73,31 +75,13 @@ class Question(models.Model):
     answer_D = QuillField()
     answer_E = QuillField()
 
-    def get_absolute_url(self):
-        return reverse_lazy('new-answer', context={
-            'question_order': self.question_order, 'order_by_id': self.order_by_id
-        })
-
-    def get_fields(self):
-        return [(field.name, field.value_to_string(self)) for field in Question._meta.fields]
-
-    def __str__(self):
-        return f'Order {self.question_order.id} - Question {self.id_by_order}'
-
-    def get_question_order(self):
-        return self.question_order.discipline.course
-
-
-class Answer(models.Model):
-    question = models.ForeignKey(Question, verbose_name='question', on_delete=models.CASCADE)
-
     EASY = 'EZ'
     INTERMEDIATE = 'IM'
     HARD = 'HD'
 
     DIFFICULTY_CHOICES = [(EASY, 'Fácil'), (INTERMEDIATE, 'Intermediário'), (HARD, 'Difícil')]
 
-    difficulty = models.CharField(max_length=2, choices=DIFFICULTY_CHOICES)
+    difficulty = models.CharField(max_length=2, choices=DIFFICULTY_CHOICES, null=True)
 
     KNOWLEDGE = 'KW'
     COMPREENSION = 'CP'
@@ -114,7 +98,7 @@ class Answer(models.Model):
         (SYNTHESIS, 'Síntese'),
         (AVALIATION, 'Avaliação')]
 
-    bloom_taxonomy = models.CharField(max_length=2, choices=BLOOM_CHOICES)
+    bloom_taxonomy = models.CharField(max_length=2, choices=BLOOM_CHOICES, null=True)
 
     HAS_TABLE = 'HT'
     HAS_GRAPHICS = 'HG'
@@ -124,7 +108,7 @@ class Answer(models.Model):
     INFO_CHOICES = [(HAS_TABLE, 'Contém Tabela'), (HAS_GRAPHICS, 'Contém Gráfico'),
                     (HAS_IMAGES, 'Contém Imagem'), (TEXT_ONLY, 'Somente Texto')]
 
-    question_information = models.CharField(max_length=2, choices=INFO_CHOICES)
+    question_information = models.CharField(max_length=2, choices=INFO_CHOICES, null=True)
 
     ANSWER_A = 'A'
     ANSWER_B = 'B'
@@ -136,7 +120,7 @@ class Answer(models.Model):
                       (ANSWER_C, 'Alternativa C'), (ANSWER_D, 'Alternativa D'),
                       (ANSWER_E, 'Alternativa E')]
 
-    correct_answer = models.CharField(max_length=1, choices=ANSWER_CHOICES)
+    correct_answer = models.CharField(max_length=1, choices=ANSWER_CHOICES, null=True)
 
     a_justification = QuillField(blank=True)
     b_justification = QuillField(blank=True)
@@ -146,10 +130,15 @@ class Answer(models.Model):
 
     revision_approval = models.BooleanField(default=False)
 
-    def tag_question_order(self):
-        return self.question.get_question_order()
+    tag = TaggableManager() # TODO: Implement Taggit autosuggestion
 
-    tag = TaggableManager()
+    def get_absolute_url(self):
+        return reverse_lazy('question-detail', context={
+            'order': self.question_order, 'id_by_order': self.id_by_order
+        })
+
+    def get_fields(self):
+        return [(field.name, field.value_to_string(self)) for field in Question._meta.fields]
 
     def __str__(self):
-        return str(self.question.__str__()) + ' | ' 'Answer'
+        return f'Order {self.question_order.id} - Question {self.id_by_order}'

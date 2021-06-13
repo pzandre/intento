@@ -1,27 +1,44 @@
 {% extends 'base.html' %}
+{% load mathfilters %}
 {% block title %}Order Details{% endblock %}
 {% block content %}
-  <h3>Encomenda {{ object.pk }}</h3><br>
-  <h4>{{ object.institute }}</h4>
-  Disciplina <strong>{{ object.discipline }}</strong><br>
-  Macro-conteúdo <strong>{{ object.macro_content }}</strong><br>
-  Micro-conteúdo <strong>{{ object.micro_content }}</strong><br>
-  Feita em {{ object.order_date }} - <strong>Entrega até {{ object.due_date }}</strong><br><br>
-  Responsável {{ object.teacher }}<br>
+  <h3>Encomenda {{ order.pk }}</h3><br>
+  <h4>{{ order.institute }}</h4>
+  Disciplina <strong>{{ order.discipline }}</strong><br>
+  Macro-conteúdo <strong>{{ order.macro_content }}</strong><br>
+  Micro-conteúdo <strong>{{ order.micro_content }}</strong><br>
+  Feita em {{ order.order_date }} - <strong>Entrega até {{ order.due_date }}</strong><br><br>
+  Responsável {{ order.teacher }}<br>
+  {% if missing_int == 0 %}
   <hr>
-  <a class="btn btn-info" href="{% url 'pdf-download' object.pk %}" class="button">Download da lista de questões em PDF</a>
+  <a class="btn btn-info" href="{% url 'pdf-download' order.pk %}" class="button">Download da lista de questões em PDF</a>
   <hr>
-  {% for id_by_order in object.question_range  %}
-    <h4>Question {{ id_by_order|add:1 }}</h4>
-    {% if object.question_details.id_by_order == id_by_order|add:"1" %}
-      <div>
-        <a class="btn btn-success" href="{% url 'question-detail' questionorder.id object.question_details.id_by_order %}" method="POST" class="button">See Question {{ id_by_order|add:"1" }}</a>
-      </div>
-    {% else %}
-      <div>
-        <a class="btn btn-danger" href="{% url 'create-question' questionorder.id id_by_order|add:"1" %}" method="POST" class="button">Create Question {{ id_by_order|add:"1" }}</a>
-      </div>
-    {% endif %}
+  {% else %}
+    <hr>
+    <h5>O PDF contendo as questões será disponibilizado ao completar a quantidade de questões estipulada pela encomenda.</h5>
+    <hr>
+  {% endif %}
+  {% for object in object_list %}
+    <h4>Question {{ object.id_by_order }}</h4>
+    </br>
+    <div>
+      <a class="btn btn-success" href="{% url 'question-detail' order.pk object.id_by_order %}">Ver questão {{ object.id_by_order }}</a>
+    </div>
+    </br>
     <hr>
   {% endfor %}
+  {% if missing_int > 0 %}
+    {% if missing_int > 1 %}
+      <h3>Faltam {{ missing_int }} questões</h3>
+    {% else %}
+      <h3>Falta {{ missing_int }} questão.</h3>
+    {% endif %}
+  {% for x in missing reversed %}
+    </br>
+    <div>
+      <a class="btn btn-danger" href="{% url 'create-question' order.pk order.question_quantity|sub:x %}">Create Question {{ order.question_quantity|sub:x }}</a>
+    </div>
+    </br>
+  {% endfor %}
+  {% endif %}
 {% endblock %}

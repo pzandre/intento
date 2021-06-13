@@ -7,14 +7,14 @@ $(".previewModal").click(function () {
     let paragraph = questionContent.item(i);
     let textfieldId = paragraph.parentElement.id;
     if (alternatives[textfieldId.slice(-1)]  == undefined) {
-      document.getElementById('modal-question').innerHTML += '<p class="modal-text-fields">' + paragraph.innerHTML + '<hr>'
+      document.getElementById('modal-question').innerHTML += '<p class="modal-text-fields">' + paragraph.innerHTML;
     } else {
-      let questionId = textfieldId.slice(-1)
-      let formattedQuestion = '<div id="alternatives"><p class="modal-text-fields">' + alternatives[questionId] + '</p> ' + paragraph.innerHTML + '</div>'
+      let questionId = textfieldId.slice(-1);
+      let formattedQuestion = '<div id="alternatives"><p class="modal-text-fields">' + alternatives[questionId] + '</p> ' + paragraph.innerHTML + '</div>';
       document.getElementById('modal-question').innerHTML += formattedQuestion;
     }
   }
   $("#exampleModal").on('hidden.bs.modal', function () {
-    $(this).html(modalBefore) // reset modal
-  })
+    $(this).html(modalBefore); // reset modal
+  });
 });

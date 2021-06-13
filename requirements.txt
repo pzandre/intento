@@ -9,3 +9,4 @@ python-dotenv>=0.16.0
 secret-key-generator>=0.0.7
 django-weasyprint
 django-request-logging
+django-mathfilters

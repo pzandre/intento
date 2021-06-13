@@ -3,9 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import QuestionOrder, Question, Answer
-from institutes.models import Institute, Discipline, DisciplineMacroContent, DisciplineMicroContent
-from .forms import QuestionOrderForm, AnswerForm, QuestionForm
+from .models import QuestionOrder, Question
+from institutes.models import Discipline, DisciplineMacroContent, DisciplineMicroContent
+from .forms import QuestionOrderForm, QuestionForm
 from django_weasyprint import WeasyTemplateResponseMixin
 from users.models import CustomUser
 from django_weasyprint.views import CONTENT_TYPE_PNG, WeasyTemplateResponse
@@ -25,7 +25,8 @@ def load_macro_details(request):
 
 def load_micro_details(request):
     macro_content_id = request.GET.get('disciplinemacrocontent_id')
-    disciplinemicrocontents = DisciplineMicroContent.objects.filter(macro_content=macro_content_id).order_by('micro_content')
+    disciplinemicrocontents = DisciplineMicroContent.objects.filter(macro_content=macro_content_id).order_by(
+        'micro_content')
     return render(request, 'load_micro_dropdown_list.html', {'disciplinemicrocontents': disciplinemicrocontents})
 
 
@@ -40,9 +41,21 @@ class OrderList(LoginRequiredMixin, ListView):
     template_name = 'orders.html'
 
 
-class OrderDetail(LoginRequiredMixin, DetailView):
-    model = QuestionOrder
+class OrderDetail(LoginRequiredMixin, ListView):
+    model = Question
     template_name = 'order_details.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order'] = QuestionOrder.objects.get(pk=self.kwargs['pk'])
+        context['question'] = Question.objects.filter(question_order=self.kwargs['pk'])
+        context['missing'] = range(0, context['order'].question_quantity - context['question'].count())
+        context['missing_int'] = context['order'].question_quantity - context['question'].count()
+        return context
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset()
+        return qs.filter(question_order__pk=self.kwargs['pk'])
 
 
 class CreateOrder(LoginRequiredMixin, CreateView):
@@ -88,33 +101,13 @@ class CreateQuestion(LoginRequiredMixin, CreateView):
         return context
 
     def get_success_url(self):
-        view_name = 'create-answer'
+        view_name = 'question-detail'
         return reverse(view_name, kwargs={'order': self.object.question_order.id,
                                           'id_by_order': self.object.id_by_order})
 
 
-class CreateAnswer(LoginRequiredMixin, CreateView):
-    model = Answer
-    template_name = 'new_answer.html'
-    form_class = AnswerForm
-
-    def get_initial(self, *args, **kwargs):
-        initial = super().get_initial()
-        order_details = QuestionOrder.objects.get(pk=self.kwargs['order'])
-        question_order = Q(question_order__id=order_details.pk)
-        question_id = Q(id_by_order__contains=self.kwargs['id_by_order'])
-        initial['question'] = Question.objects.get(question_order & question_id)
-        initial['tag'] = order_details.discipline.name
-        return initial
-
-    def get_success_url(self):
-        view_name = 'question-detail'
-        return reverse(view_name, kwargs={'order': self.kwargs['order'],
-                                          'id_by_order': self.kwargs['id_by_order']})
-
-
 class QuestionDetail(LoginRequiredMixin, DetailView):
-    model = Answer
+    model = Question
     template_name = 'question_details.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -129,7 +122,7 @@ class QuestionDetail(LoginRequiredMixin, DetailView):
         question_order = Q(question_order__id=self.kwargs['order'])
         question_id = Q(id_by_order__contains=self.kwargs['id_by_order'])
         q = Question.objects.get(question_order & question_id)
-        return get_object_or_404(Answer, pk=q.id)
+        return get_object_or_404(Question, pk=q.id)
 
 
 class UpdateQuestion(LoginRequiredMixin, UpdateView):
@@ -147,32 +140,6 @@ class UpdateQuestion(LoginRequiredMixin, UpdateView):
         view_name = 'question-detail'
         return reverse(view_name, kwargs={'order': self.kwargs['order'],
                                           'id_by_order': self.kwargs['pk']})
-
-
-class UpdateAnswer(LoginRequiredMixin, UpdateView):
-    model = Answer
-    form_class = AnswerForm
-    template_name = 'update_answer.html'
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['question'] = Question.objects.filter(
-            question_order=self.kwargs['order']).get(id_by_order=self.kwargs['id_by_order'])
-        context['order'] = self.kwargs['order']
-        context['id_by_order'] = self.kwargs['id_by_order']
-        return context
-
-    def get_object(self, *args, **kwargs):
-        question_order = Q(question_order__id=self.kwargs['order'])
-        question_id = Q(id_by_order=self.kwargs['id_by_order'])
-        q = Question.objects.get(question_order & question_id)
-        return get_object_or_404(Answer, pk=q.id)
-
-    def get_success_url(self, *args, **kwargs):
-        view_name = 'question-detail'
-        return reverse(view_name, kwargs={
-            'order': self.kwargs['order'],
-            'id_by_order': self.kwargs['id_by_order']})
 
 
 class QuestionList(LoginRequiredMixin, ListView):
@@ -207,11 +174,15 @@ class DeleteQuestion(LoginRequiredMixin, DeleteView):
 
 
 class QuestionsPDFList(LoginRequiredMixin, ListView):
-    template_name = 'question_list_pdf_view.html'
+    template_name = 'question_list_pdf_view.html'   # TODO: Format pdf for questions
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order'] = QuestionOrder.objects.get(pk=self.kwargs['pk'])
+        return context
 
     def get_queryset(self, *args, **kwargs):
-        self.order_pk = get_object_or_404(QuestionOrder, pk=self.kwargs['order'])
-        return Question.objects.filter(question_order=self.order_pk)
+        return Question.objects.filter(question_order=self.kwargs['pk'])
 
 
 class CustomWeasyTemplateResponse(WeasyTemplateResponse):
@@ -230,6 +201,7 @@ class QuestionListPrint(WeasyTemplateResponseMixin, QuestionsPDFList):
         'static/css/bootstrap.min.css',
         'static/css/katex.min.css',
         'monokai-sublime.min.css',
+        'static/css/questionPDF.css'
     ]
     # show pdf in-line (default: True, show download dialog)
     pdf_attachment = True
