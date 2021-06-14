@@ -17,7 +17,7 @@
     <form action="" name="question-form" id="question-form1" method="POST">{% csrf_token %}
       {{ form.as_p }}
       <!-- Button trigger modal -->
-      <button type="button" id="preview-question1"  name="preview-question" class="btn btn-primary previewModal" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <button type="button" id="preview-question1"  name="preview-question" class="btn btn-secondary previewModal" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Preview da questão
       </button>
       <!-- Modal -->
@@ -37,13 +37,12 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" id="close-modal" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" id="close-modal-answer" class="btn btn-primary close-modal showAnswer" data-bs-dismiss="modal">Salvar</button>
+              <button type="button" id="close-modal" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Fechar</button>
             </div>
           </div>
         </div>
       </div>
-    <button class="btn btn-secondary" id="create-question" href="{% url 'question-detail' order id_by_order %}" method="POST">Create Question</button>
+    <button class="btn btn-success" id="create-question" href="{% url 'question-detail' order id_by_order %}" method="POST">Create Question</button>
     </form>
   </div>
   <script src="{% static 'js/questionModalForm.js' %}"></script>

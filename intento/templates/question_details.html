@@ -3,8 +3,8 @@
 {% block title %}Intento | Question Details{% endblock %}
 {% block content %}
   <div>{{ question.get_question_type_display }}</div>
-  <div>{{ question.base_text.html|safe }}</div>
-  <div>{{ question.bibliographic_reference }}</div>
+  <div>{{ question.base_text_1.html|safe }}</div>
+  <div>{{ question.bibliographic_reference_1 }}</div>
   <div>{{ question.question_statement.html|safe }}</div>
   <div>{{ question.question_A.html|safe }}</div>
   <div>{{ question.question_B.html|safe }}</div>
