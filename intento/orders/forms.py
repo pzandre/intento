@@ -87,6 +87,7 @@ class QuestionForm(forms.ModelForm):
             'c_justification': forms.TextInput(attrs={'style': 'display:none'}),
             'd_justification': forms.TextInput(attrs={'style': 'display:none'}),
             'e_justification': forms.TextInput(attrs={'style': 'display:none'}),
+            'general_justification': forms.Textarea(attrs={'class': 'form-control'}),
             'revision_approval': forms.CheckboxInput(attrs={'style': 'display:none'}),
             'tag': TagWidget(attrs={'data-role': 'tagsinput', 'class': 'form-control', 'style': 'display:none'}),
         }

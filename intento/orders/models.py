@@ -127,6 +127,7 @@ class Question(models.Model):
     c_justification = QuillField(blank=True)
     d_justification = QuillField(blank=True)
     e_justification = QuillField(blank=True)
+    general_justification = models.TextField(null=True, blank=True)
 
     revision_approval = models.BooleanField(default=False)
 
