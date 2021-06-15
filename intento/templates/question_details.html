@@ -2,23 +2,57 @@
 {% load static %}
 {% block title %}Intento | Question Details{% endblock %}
 {% block content %}
-  <div>{{ question.get_question_type_display }}</div>
-  <div>{{ question.base_text.html|safe }}</div>
-  <div>{{ question.bibliographic_reference }}</div>
+  <div>{{ question.question_order }}</div>
+  <div>Questão {{ question.id_by_order }} da encomenda</div>
+  <div>Tipo de questão: {{ question.get_question_type_display }}</div>
+  <br>
+  <div>Texto base 1</div>
+  <br>
+  <h6>{{ question.base_text_1.html|safe }}</h6>
+  <br><p> Referência bibliográfica 1: <em>{{ question.bibliographic_reference_2 }}</em></p>
+
+  <br>
+
+  {% if question.base_text_2 != '{"delta":"","html":""}' %}
+    <div><p>Texto Base 2</p>
+      <div>{{ question.base_text_2.html|safe }}</div>
+        {% if question.bibliographic_reference_2 != None %}
+          <p> Referência bibliográfica 2: <em>{{ question.bibliographic_reference_2 }}</em></p>
+        {% endif %}
+  {% endif %}
+
+  {% if question.base_text_3 != '{"delta":"","html":""}' %}
+    <div><p>Texto Base 3</p>
+      <div>{{ question.base_text_3.html|safe }}</div>
+        {% if question.bibliographic_reference_3 != None %}
+          <p> Referência bibliográfica 3: <em>{{ question.bibliographic_reference_3 }}</em></p>
+        {% endif %}
+  {% endif %}
+
+  <div>Enunciado</div>
   <div>{{ question.question_statement.html|safe }}</div>
-  <div>{{ question.question_A.html|safe }}</div>
-  <div>{{ question.question_B.html|safe }}</div>
-  <div>{{ question.question_C.html|safe }}</div>
-  <div>{{ question.question_D.html|safe }}</div>
-  <div>{{ question.question_E.html|safe }}</div>
-  <div>{{ question.difficulty }}</div>
-  <div>{{ question.bloom_taxonomy }}</div>
-  <div>{{ question.question_information }}</div>
-  <div>{{ question.correct_question }}</div>
-  <div>{{ question.a_justification.html|safe }}</div>
-  <div>{{ question.b_justification.html|safe }}</div>
-  <div>{{ question.c_justification.html|safe }}</div>
-  <div>{{ question.d_justification.html|safe }}</div>
-  <div>{{ question.e_justification.html|safe }}</div>
+  </br>
+  <h3>Alternativas</h3>
+  <div>A - {{ question.answer_A.html|safe }}</div>
+  <div>B - {{ question.answer_B.html|safe }}</div>
+  <div>C - {{ question.answer_C.html|safe }}</div>
+  <div>D - {{ question.answer_D.html|safe }}</div>
+  <div>E - {{ question.answer_E.html|safe }}</div>
+  <br><hr>
+  <h4>Gabarito</h4>
+  <div>Dificuldade - {{ question.get_difficulty_display }}</div>
+  <div>Taxonomia de Bloom - {{ question.get_bloom_taxonomy_display }}</div>
+  <div>Questão {{ question.get_question_information_display }}</div>
+  <div>Alternativa Correta - {{ question.correct_answer }}</div>
+  <br><hr>
+  <h5>Justificativas</h5>
+  <div>Justificativa da alternativa A<br><br>{{ question.a_justification.html|safe }}</div>
+  <div>Justificativa da alternativa B<br><br>{{ question.b_justification.html|safe }}</div>
+  <div>Justificativa da alternativa C<br><br>{{ question.c_justification.html|safe }}</div>
+  <div>Justificativa da alternativa D<br><br>{{ question.d_justification.html|safe }}</div>
+  <div>Justificativa da alternativa E<br><br>{{ question.e_justification.html|safe }}</div>
+  <div>Justificativa Geral<br><br>{{ question.general_justification|safe }}</div>
+  <br><hr>
   <a href="{% url 'update-question' order id_by_order %}" class="btn btn-secondary">Change Question</a>
+  <br><br>
 {% endblock %}
