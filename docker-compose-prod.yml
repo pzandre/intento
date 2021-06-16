@@ -26,26 +26,18 @@ services:
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
             POSTGRES_DB: ${POSTGRES_DB}
     nginx:
+        build:
+          context: .
+          dockerfile: ./nginx/Dockerfile
         image: nginx
         restart: unless-stopped
         volumes:
-            - ./intento/static:/etc/nginx/static
-            - ./ssl/nginx:/etc/nginx/conf.d
-            - ./ssl/certbot/conf:/etc/letsencrypt
-            - ./ssl/certbot/www:/var/www/certbot
+          - /etc/letsencrypt/archive/apwebdev.xyz:/etc/nginx/certs
+          - ./intento/static:/etc/nginx/static
         ports:
-            - "80:80"
-            - "443:443"
-        command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+          - 80:80
+          - 443:443
         depends_on:
-            - django
-    certbot:
-        image: certbot/certbot
-        restart: unless-stopped
-        volumes:
-            - ./ssl/certbot/conf:/etc/letsencrypt
-            - ./ssl/certbot/www:/var/www/certbot
-        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-                  
+          - django
 volumes:
   postgres_data:
